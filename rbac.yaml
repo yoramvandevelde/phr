@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: phr-controller
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: phr-controller
+rules:
+  - apiGroups: ["dns.sifft.io"]
+    resources: ["piholerecords"]
+    verbs: ["get", "list", "watch", "patch", "update"]
+  - apiGroups: ["dns.sifft.io"]
+    resources: ["piholerecords/status"]
+    verbs: ["patch", "update"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: phr-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: phr-controller
+subjects:
+  - kind: ServiceAccount
+    name: phr-controller
+    namespace: default

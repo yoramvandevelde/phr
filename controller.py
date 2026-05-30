@@ -1,9 +1,19 @@
 import kopf
 import httpx
 import os
+from kubernetes import client, config
+
 
 PIHOLE = os.environ.get("PIHOLE_URL", "http://10.10.20.53")
 PASSWORD = os.environ.get("PIHOLE_PASSWORD", "")
+
+
+@kopf.on.startup()
+def configure(settings: kopf.OperatorSettings, **kwargs):
+    try:
+        config.load_incluster_config()
+    except config.ConfigException:
+        config.load_kube_config()
 
 
 def pihole_auth() -> str:
