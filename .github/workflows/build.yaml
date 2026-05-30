@@ -37,7 +37,7 @@ jobs:
             type=sha,prefix=sha-
 
       - name: Build and push
-        uses: docker/docker/build-push-action@v6
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
