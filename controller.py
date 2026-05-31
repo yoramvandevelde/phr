@@ -7,9 +7,10 @@ from kubernetes import client, config
 PIHOLE = os.environ.get("PIHOLE_URL", "http://10.10.20.53")
 PASSWORD = os.environ.get("PIHOLE_PASSWORD", "")
 
+
 @kopf.on.login()
 def login_fn(**kwargs):
-    return kopf.login_via_service_account(**kwargs)
+    return kopf.login_with_service_account(**kwargs)
 
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **kwargs):
