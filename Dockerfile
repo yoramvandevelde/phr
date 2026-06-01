@@ -7,6 +7,7 @@ RUN pip install uv && uv sync --frozen --no-dev
 
 COPY controller.py .
 
-RUN adduser --disabled-password --gecos "" appuser
+RUN adduser --disabled-password --gecos "" appuser && \
+    chown -R appuser:appuser /app
 USER appuser
 CMD ["uv", "run", "kopf", "run", "controller.py", "--all-namespaces"]
