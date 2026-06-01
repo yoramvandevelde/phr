@@ -16,7 +16,7 @@ spec:
       serviceAccountName: phr-controller
       containers:
         - name: controller
-          image: ghcr.io/yoramvandevelde/phr:0.1.5
+          image: ghcr.io/yoramvandevelde/phr:0.1.6
           env:
             - name: PIHOLE_URL
               value: "http://10.20.30.40"
