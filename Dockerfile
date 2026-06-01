@@ -1,5 +1,8 @@
 FROM python:3.12-slim
 
+RUN adduser --disabled-password --gecos "" appuser
+USER appuser
+
 WORKDIR /app
 COPY pyproject.toml uv.lock ./
 RUN pip install uv && uv sync --frozen --no-dev
