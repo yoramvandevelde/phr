@@ -16,11 +16,11 @@ spec:
       serviceAccountName: phr-controller
       containers:
         - name: controller
-          image: ghcr.io/yoramvandevelde/phr:0.1.7
+          image: ghcr.io/yoramvandevelde/phr:0.1.0
           imagePullPolicy: Always
           env:
             - name: PIHOLE_URL
-              value: "http://10.20.30.40"
+              value: "http://10.10.20.53"
             - name: PIHOLE_PASSWORD
               valueFrom:
                 secretKeyRef:
