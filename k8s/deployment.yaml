@@ -19,9 +19,17 @@ spec:
           image: ghcr.io/yoramvandevelde/phr:0.1.5
           env:
             - name: PIHOLE_URL
-              value: "http://10.10.20.53"
+              value: "http://10.20.30.40"
             - name: PIHOLE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: phr-pihole
                   key: password
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault

@@ -12,6 +12,7 @@ PASSWORD = os.environ.get("PIHOLE_PASSWORD", "")
 def login_fn(**kwargs):
     return kopf.login_with_service_account(**kwargs)
 
+
 @kopf.on.startup()
 def configure(settings: kopf.OperatorSettings, **kwargs):
     try:
