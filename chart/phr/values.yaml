@@ -1,0 +1,15 @@
+image:
+  repository: ghcr.io/yoramvandevelde/phr
+  tag: v0.1.1
+  pullPolicy: IfNotPresent
+
+pihole:
+  url: http://10.10.20.53
+  # Secret must exist before installing the chart:
+  # kubectl create secret generic phr-pihole --from-literal=password=<password>
+  # Or use Sealed Secrets
+  passwordSecretName: phr-pihole
+  passwordSecretKey: password
+
+nameOverride: ""
+fullnameOverride: ""

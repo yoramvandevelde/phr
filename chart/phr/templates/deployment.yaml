@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "phr.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ include "phr.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "phr.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "phr.fullname" . }}
+    spec:
+      serviceAccountName: {{ include "phr.fullname" . }}
+      containers:
+        - name: controller
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PIHOLE_URL
+              value: {{ .Values.pihole.url | quote }}
+            - name: PIHOLE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pihole.passwordSecretName }}
+                  key: {{ .Values.pihole.passwordSecretKey }}
