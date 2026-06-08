@@ -40,6 +40,37 @@ def create_record(spec, name, logger, **kwargs):
     return {"synced": True}
 
 
+@kopf.on.update('dns.sifft.io', 'v1alpha1', 'piholerecords')
+def update_record(spec, old, new, logger, **kwargs):
+    old_spec = old.get('spec', {})
+    new_spec = new.get('spec', {})
+
+    old_ip = old_spec.get('ip')
+    old_hostname = old_spec.get('hostname')
+    new_ip = new_spec.get('ip')
+    new_hostname = new_spec.get('hostname')
+
+    if old_ip == new_ip and old_hostname == new_hostname:
+        return  
+
+    sid = pihole_auth()
+
+    if old_ip and old_hostname:
+        logger.info(f"Removing old record: {old_ip} -> {old_hostname}")
+        httpx.delete(
+            f"{PIHOLE}/api/config/dns/hosts/{old_ip}%20{old_hostname}",
+            headers={"sid": sid}
+        )
+
+    logger.info(f"Creating new record: {new_ip} -> {new_hostname}")
+    httpx.put(
+        f"{PIHOLE}/api/config/dns/hosts/{new_ip}%20{new_hostname}",
+        headers={"sid": sid}
+    )
+
+    return {"synced": True}
+
+
 @kopf.on.delete('dns.sifft.io', 'v1alpha1', 'piholerecords')
 def delete_record(spec, name, logger, **kwargs):
     ip = spec['ip']

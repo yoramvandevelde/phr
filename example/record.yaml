@@ -1,0 +1,8 @@
+apiVersion: dns.sifft.io/v1alpha1
+kind: PiholeRecord
+metadata:
+  name: example
+  namespace: default
+spec:
+  hostname: example.lan
+  ip: 10.20.30.40
