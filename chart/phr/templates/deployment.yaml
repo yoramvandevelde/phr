@@ -28,3 +28,5 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.pihole.passwordSecretName }}
                   key: {{ .Values.pihole.passwordSecretKey }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
