@@ -16,7 +16,7 @@ spec:
       serviceAccountName: phr-controller
       containers:
         - name: controller
-          image: ghcr.io/yoramvandevelde/phr:0.1.0
+          image: ghcr.io/yoramvandevelde/phr:0.1.1
           imagePullPolicy: Always
           env:
             - name: PIHOLE_URL
